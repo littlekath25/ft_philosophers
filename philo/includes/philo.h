@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/15 19:59:23 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/25 11:38:24 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,20 @@
 typedef struct s_philo
 {
 	int	position;
-	int	left_fork;
-	int	right_fork;
+	int	*left_fork;
+	int	*right_fork;
 }	t_philo;
 
 typedef struct s_room
 {
-	int		num_philo;
-	int		time_die;
-	int		time_eat;
-	int		time_sleep;
-	int		min_times_eat;
-	t_philo	*philos;
+	int			num_philo;
+	int			time_die;
+	int			time_eat;
+	int			time_sleep;
+	int			min_times_eat;
+	t_philo		*philos;
+	int			*forks;
+	pthread_t	*threads;
 }	t_room;
 
 typedef enum e_errors
@@ -49,5 +51,7 @@ int		ft_isdigit(int c);
 int		ft_isalldigits(char *str);
 void	print_room(t_room *room);
 t_room	*init_room(t_room *room, char *argv[]);
+int		check_input(int argc, char *argv[]);
+void	*ft_calloc(size_t blocks, size_t size);
 
 #endif
