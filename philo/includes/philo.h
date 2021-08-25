@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 11:38:24 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/25 14:27:05 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 typedef struct s_philo
 {
 	int	position;
-	int	*left_fork;
-	int	*right_fork;
+	int	left_fork;
+	int	right_fork;
 }	t_philo;
 
 typedef struct s_room
