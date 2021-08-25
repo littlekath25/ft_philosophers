@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 14:27:05 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/25 16:04:57 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 typedef struct s_philo
 {
 	int	position;
-	int	left_fork;
-	int	right_fork;
+	int	*left_fork;
+	int	*right_fork;
 }	t_philo;
 
 typedef struct s_room
@@ -53,5 +53,6 @@ void	print_room(t_room *room);
 t_room	*init_room(t_room *room, char *argv[]);
 int		check_input(int argc, char *argv[]);
 void	*ft_calloc(size_t blocks, size_t size);
+void	create_room(t_room *room);
 
 #endif

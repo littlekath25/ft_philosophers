@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 14:28:19 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/25 15:57:06 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,63 +24,6 @@ t_room	*init_room(t_room *room, char *argv[])
 	else
 		room->min_times_eat = -1;
 	return (room);
-}
-
-void	*test(void *ptr)
-{
-	printf("HELLO WORLD\n");
-	return (ptr);
-}
-
-void	create_philos(t_room *room)
-{
-	int	len;
-	int	i;
-	int	pos;
-
-	len = room->num_philo + 1;
-	room->philos = (t_philo *)ft_calloc(len, sizeof(t_philo));
-	i = 0;
-	pos = 1;
-	while (i < room->num_philo)
-	{
-		room->philos[i].position = pos;
-		room->philos[i].left_fork = pos - 1;
-		if (room->philos[i].left_fork == 0)
-			room->philos[i].left_fork = room->num_philo;
-		room->philos[i].right_fork = pos;
-		pos++;
-		i++;
-	}
-	i = 0;
-	while (i < room->num_philo)
-	{
-		printf("PHILO: %i - %i - %i\n", room->philos[i].position, room->philos[i].left_fork, room->philos[i].right_fork);
-		i++;
-	}
-}
-
-void	create_threads(t_room *room)
-{
-	int	len;
-	int	i;
-
-	i = 0;
-	len = room->num_philo + 1;
-	room->threads = (pthread_t *)ft_calloc(len, sizeof(pthread_t));
-	while (i < room->num_philo)
-	{
-		pthread_create(&room->threads[i], NULL, &test, NULL);
-		printf("ID: %li - %i\n", room->threads[i], i);
-		i++;
-	}
-}
-
-void	create_room(t_room *room)
-{
-	create_philos(room);
-	// create_forks(room);
-	create_threads(room);
 }
 
 int	main(int argc, char *argv[])
