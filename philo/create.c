@@ -6,13 +6,13 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/25 15:55:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 17:28:52 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/27 12:35:54 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*test(void *ptr)
+void	*start_routine(void *ptr)
 {
 	return (ptr);
 }
@@ -38,27 +38,13 @@ void	create_philos(t_room *room)
 		pos++;
 		i++;
 	}
-	i = 0;
-	while (i < room->num_philo)
-	{
-		printf("PHILO: %i - %i - %i\n", room->philos[i].position, *(room->philos[i]).left_fork, *(room->philos[i]).right_fork);
-		i++;
-	}
 }
 
 void	create_forks(t_room *room)
 {
-	int	i;
-
-	i = 0;
-	room->forks = (int *)ft_calloc(room->num_philo, sizeof(int));
+	room->forks = (pthread_mutex_t *)ft_calloc(room->num_philo, sizeof(pthread_mutex_t));
 	if (!room->forks)
 		error_and_exit(malloc_fail);
-	while (i < room->num_philo)
-	{
-		room->forks[i] = i;
-		i++;
-	}
 }
 
 void	create_threads(t_room *room)
@@ -71,8 +57,7 @@ void	create_threads(t_room *room)
 		error_and_exit(malloc_fail);
 	while (i < room->num_philo)
 	{
-		pthread_create(&room->threads[i], NULL, &test, NULL);
-		printf("ID: %li - %i\n", room->threads[i], i);
+		pthread_create(&room->threads[i], NULL, &start_routine, room);
 		i++;
 	}
 }

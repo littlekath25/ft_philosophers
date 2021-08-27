@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 16:04:57 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/27 12:32:20 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,21 @@
 
 typedef struct s_philo
 {
-	int	position;
-	int	*left_fork;
-	int	*right_fork;
+	int				position;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
 }	t_philo;
 
 typedef struct s_room
 {
-	int			num_philo;
-	int			time_die;
-	int			time_eat;
-	int			time_sleep;
-	int			min_times_eat;
-	t_philo		*philos;
-	int			*forks;
-	pthread_t	*threads;
+	int					num_philo;
+	int					time_die;
+	int					time_eat;
+	int					time_sleep;
+	int					min_times_eat;
+	t_philo				*philos;
+	pthread_mutex_t		*forks;
+	pthread_t			*threads;
 }	t_room;
 
 typedef enum e_errors
