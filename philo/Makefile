@@ -6,7 +6,7 @@
 #    By: katherine <katherine@student.codam.nl>       +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/09 15:35:47 by katherine     #+#    #+#                  #
-#    Updated: 2021/08/25 15:55:56 by katherine     ########   odam.nl          #
+#    Updated: 2021/08/30 17:59:52 by katherine     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ LIBS		=	-o
 SRC			= 	main.c\
 				utils.c\
 				parsing.c\
-				create.c
+				create.c\
+				routine.c
 OBJ			=	$(SRC:%.c=%.o)
 
 all: $(NAME)

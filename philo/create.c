@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/25 15:55:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 17:03:57 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/30 18:15:44 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ t_philo	*create_philo(t_room *room, t_philo *philo)
 void	*start_routine(void *room)
 {
 	t_philo			*philo;
-	long long		cur_time;
 
+	room = (t_room *)room;
 	philo = NULL;
-	philo = create_philo((t_room *)room, philo);
-	cur_time = get_timestamp();
-	sleep(2);
-	printf("CURR: %lli\n", cur_time);
+	philo = create_philo(room, philo);
+	philo->last_eaten = get_timestamp();
+	while (check_death(room, philo))
+	{
+		if (philo->position % 2)
+			usleep(1000);
+		start_eating(room, philo);
+		start_sleeping(room, philo);
+		start_thinking(room, philo);
+	}
 	free(philo);
 	return (room);
 }
