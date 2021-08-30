@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 18:14:02 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/30 18:28:17 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	start_eating(t_room *room, t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	printf("PHILO %i PICKED UP A LEFT FORK\n", philo->position);
+	print_state(taken_left_fork, philo, room);
 	pthread_mutex_lock(philo->right_fork);
-	printf("PHILO %i PICKED UP A RIGHT FORK\n", philo->position);
+	print_state(taken_right_fork, philo, room);
 	if ((philo->left_fork->__data.__lock == 1) && (philo->right_fork->__data.__lock == 1))
 	{
 		philo->is_eating = 1;
-		printf("PHILO %i STARTED EATING\n", philo->position);
+		print_state(eating, philo, room);
 		usleep(room->time_eat);
 		philo->is_eating = 0;
 	}
@@ -32,13 +32,14 @@ void	start_eating(t_room *room, t_philo *philo)
 
 void	start_sleeping(t_room *room, t_philo *philo)
 {
-	printf("PHILO %i STARTED SLEEPING\n", philo->position);
+	print_state(sleeping, philo, room);
 	usleep(room->time_eat);
 }
 
 void	start_thinking(t_room *room, t_philo *philo)
 {
-	printf("PHILO %i STARTED THINKING\n", philo->position);
+	print_state(thinking, philo, room);
+	usleep(room->time_eat);
 }
 
 int	check_death(t_room *room, t_philo *philo)
@@ -50,7 +51,7 @@ int	check_death(t_room *room, t_philo *philo)
 	diff = time - philo->last_eaten;
 	if (diff >= room->time_die)
 	{
-		printf("PHILO %i HAS DIED\n", philo->position);
+		print_state(dead, philo, room);
 		return (0);
 	}
 	return (1);

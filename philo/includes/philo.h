@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 18:13:26 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/30 18:25:14 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ typedef enum e_errors
 	mutex_error
 }	t_errors;
 
+typedef enum e_states
+{
+	taken_left_fork,
+	taken_right_fork,
+	eating,
+	sleeping,
+	thinking,
+	dead
+}	t_states;
+
 void		error_and_exit(int error);
 int			ft_atoi(const char *str);
 void		print_room(t_room *room);
@@ -62,5 +72,6 @@ int			check_death(t_room *room, t_philo *philo);
 void		start_eating(t_room *room, t_philo *philo);
 void		start_sleeping(t_room *room, t_philo *philo);
 void		start_thinking(t_room *room, t_philo *philo);
+void		print_state(int state, t_philo *philo, t_room *room);
 
 #endif
