@@ -6,45 +6,56 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/25 15:55:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/27 12:35:54 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/30 17:03:57 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*start_routine(void *ptr)
+t_philo	*create_philo(t_room *room, t_philo *philo)
 {
-	return (ptr);
+	philo = (t_philo *)ft_calloc(1, sizeof(t_philo));
+	if (!philo)
+		error_and_exit(malloc_fail);
+	philo->position = room->position;
+	philo->left_fork = &room->forks[room->position - 1];
+	if (room->position == room->num_philo)
+		philo->right_fork = &room->forks[0];
+	else
+		philo->right_fork = &room->forks[room->position];
+	room->position++;
+	return (philo);
 }
 
-void	create_philos(t_room *room)
+void	*start_routine(void *room)
 {
-	int	i;
-	int	pos;
+	t_philo			*philo;
+	long long		cur_time;
 
-	room->philos = (t_philo *)ft_calloc(room->num_philo, sizeof(t_philo));
-	if (!room->philos)
-		error_and_exit(malloc_fail);
-	i = 0;
-	pos = 1;
-	while (i < room->num_philo)
-	{
-		room->philos[i].position = pos;
-		room->philos[i].left_fork = &room->forks[pos - 1];
-		if (pos == room->num_philo)
-			room->philos[i].right_fork = &room->forks[0];
-		else
-			room->philos[i].right_fork = &room->forks[pos];
-		pos++;
-		i++;
-	}
+	philo = NULL;
+	philo = create_philo((t_room *)room, philo);
+	cur_time = get_timestamp();
+	sleep(2);
+	printf("CURR: %lli\n", cur_time);
+	free(philo);
+	return (room);
 }
 
 void	create_forks(t_room *room)
 {
-	room->forks = (pthread_mutex_t *)ft_calloc(room->num_philo, sizeof(pthread_mutex_t));
+	int	i;
+
+	i = 0;
+	room->forks = \
+	(pthread_mutex_t *)ft_calloc(room->num_philo, sizeof(pthread_mutex_t));
 	if (!room->forks)
 		error_and_exit(malloc_fail);
+	while (i < room->num_philo)
+	{
+		if (pthread_mutex_init(&room->forks[i], NULL))
+			error_and_exit(mutex_error);
+		i++;
+	}
 }
 
 void	create_threads(t_room *room)
@@ -60,11 +71,16 @@ void	create_threads(t_room *room)
 		pthread_create(&room->threads[i], NULL, &start_routine, room);
 		i++;
 	}
+	i = 0;
+	while (i < room->num_philo)
+	{
+		pthread_join(room->threads[i], NULL);
+		i++;
+	}
 }
 
 void	create_room(t_room *room)
 {
 	create_forks(room);
-	create_philos(room);
 	create_threads(room);
 }

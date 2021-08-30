@@ -6,11 +6,26 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/15 18:57:33 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/25 11:38:16 by katherine     ########   odam.nl         */
+/*   Updated: 2021/08/30 16:04:18 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+long long	get_timestamp(void)
+{
+	struct timeval	time;
+	long long		new_time;
+
+	gettimeofday(&time, NULL);
+	new_time = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (new_time);
+}
+
+long long	get_timediff(long long past, long long pres)
+{
+	return (past - pres);
+}
 
 void	*ft_calloc(size_t blocks, size_t size)
 {
@@ -48,5 +63,7 @@ void	error_and_exit(int error)
 		printf("Argument error\n");
 	if (error == malloc_fail)
 		printf("Malloc fail\n");
+	if (error == mutex_error)
+		printf("Mutex errror\n");
 	exit(1);
 }
