@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 18:28:17 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/03 12:51:44 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	start_eating(t_room *room, t_philo *philo)
 	philo->last_eaten = get_timestamp();
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
+	usleep(200);
 }
 
 void	start_sleeping(t_room *room, t_philo *philo)
