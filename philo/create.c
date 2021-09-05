@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/25 15:55:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/03 12:51:41 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/05 13:03:01 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	*start_routine(void *room)
 	philo->last_eaten = get_timestamp();
 	while (check_death(room, philo))
 	{
-		if (philo->position / 2)
-			usleep(200);
+		if (philo->position % 2)
+			usleep(100);
 		start_eating(room, philo);
-		// start_sleeping(room, philo);
-		// start_thinking(room, philo);
+		start_sleeping(room, philo);
+		start_thinking(room, philo);
 	}
 	free(philo);
 	return (room);

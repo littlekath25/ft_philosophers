@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/03 12:51:44 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/05 12:59:32 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,24 @@ void	start_eating(t_room *room, t_philo *philo)
 	print_state(taken_left_fork, philo, room);
 	pthread_mutex_lock(philo->right_fork);
 	print_state(taken_right_fork, philo, room);
-	if ((philo->left_fork->__data.__lock == 1) && (philo->right_fork->__data.__lock == 1))
-	{
-		philo->is_eating = 1;
-		print_state(eating, philo, room);
-		usleep(room->time_eat);
-		philo->is_eating = 0;
-	}
+	philo->is_eating = 1;
+	print_state(eating, philo, room);
+	usleep(room->time_eat);
+	philo->is_eating = 0;
 	philo->last_eaten = get_timestamp();
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
-	usleep(200);
 }
 
 void	start_sleeping(t_room *room, t_philo *philo)
 {
 	print_state(sleeping, philo, room);
-	usleep(room->time_eat);
+	usleep(room->time_sleep * 1000);
 }
 
 void	start_thinking(t_room *room, t_philo *philo)
 {
 	print_state(thinking, philo, room);
-	usleep(room->time_eat);
 }
 
 int	check_death(t_room *room, t_philo *philo)
