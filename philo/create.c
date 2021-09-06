@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/25 15:55:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 11:00:41 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/06 13:00:15 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,9 @@ t_philo	*create_philo(t_room *room, t_philo *philo)
 		philo->right_fork = &room->forks[0];
 	else
 		philo->right_fork = &room->forks[room->position];
+	philo->room = room;
 	room->position++;
 	return (philo);
-}
-
-void	*start_routine(void *ptr)
-{
-	t_philo			*philo;
-	t_room			*room;
-
-	room = (t_room *)ptr;
-	philo = NULL;
-	philo = create_philo(room, philo);
-	philo->last_eaten = get_timestamp();
-	while (check_death(room, philo))
-	{
-		if (philo->position % 2)
-			usleep(1500);
-		start_eating(room, philo);
-		start_sleeping(room, philo);
-		start_thinking(room, philo);
-		if (room->min_times_eat > 0 && philo->times_eaten == room->min_times_eat)
-			break ;
-	}
-	free(philo);
-	return (room);
 }
 
 void	create_forks(t_room *room)

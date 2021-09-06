@@ -6,26 +6,24 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/15 18:57:33 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 18:25:43 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/06 13:08:33 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_state(int state, t_philo *philo, t_room *room)
+void	print_state(int state, t_philo *philo)
 {
-	if (state == taken_left_fork)
-		printf("%lli %i has taken a left fork\n", get_timestamp() - room->start_time, philo->position);
-	if (state == taken_right_fork)
-		printf("%lli %i has taken a right fork\n", get_timestamp() - room->start_time, philo->position);
+	if (state == taken_fork)
+		printf("%lli %i has taken a fork\n", get_timestamp() - philo->room->start_time, philo->position);
 	if (state == eating)
-		printf("%lli %i is eating\n", get_timestamp() - room->start_time, philo->position);
+		printf("%lli %i is eating\n", get_timestamp() - philo->room->start_time, philo->position);
 	if (state == sleeping)
-		printf("%lli %i is sleeping\n", get_timestamp() - room->start_time, philo->position);
+		printf("%lli %i is sleeping\n", get_timestamp() - philo->room->start_time, philo->position);
 	if (state == thinking)
-		printf("%lli %i is thinking\n", get_timestamp() - room->start_time, philo->position);
+		printf("%lli %i is thinking\n", get_timestamp() - philo->room->start_time, philo->position);
 	if (state == dead)
-		printf("%lli %i had died\n", get_timestamp() - room->start_time, philo->position);
+		printf("%lli %i had died\n", get_timestamp() - philo->room->start_time, philo->position);
 }
 
 long long	get_timestamp(void)

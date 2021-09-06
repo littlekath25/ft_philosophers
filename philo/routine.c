@@ -6,25 +6,46 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 11:05:49 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/06 13:09:02 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	start_eating(t_room *room, t_philo *philo)
+void	*start_routine(void *ptr)
+{
+	t_philo			*philo;
+	t_room			*room;
+
+	room = (t_room *)ptr;
+	philo = NULL;
+	philo = create_philo(room, philo);
+	philo->last_eaten = get_timestamp();
+	while (check_death(philo))
+	{
+		if (philo->position % 2)
+			usleep(1000);
+		start_eating(philo);
+		start_sleeping(philo);
+		print_state(thinking, philo);
+		if (room->min_times_eat > 0 && philo->times_eaten == room->min_times_eat)
+			break ;
+	}
+	free(philo);
+	return (room);
+}
+
+void	start_eating(t_philo *philo)
 {
 	if (pthread_mutex_lock(philo->left_fork))
 		return ;
-	print_state(taken_left_fork, philo, room);
+	print_state(taken_fork, philo);
 	if (pthread_mutex_lock(philo->right_fork))
 		return ;
-	print_state(taken_right_fork, philo, room);
-	if (philo->is_eating == 1)
-		return ;
+	print_state(taken_fork, philo);
 	philo->is_eating = 1;
-	print_state(eating, philo, room);
-	usleep(room->time_eat * 1000);
+	print_state(eating, philo);
+	usleep(philo->room->time_eat * 1000);
 	philo->is_eating = 0;
 	philo->last_eaten = get_timestamp();
 	philo->times_eaten++;
@@ -34,28 +55,35 @@ void	start_eating(t_room *room, t_philo *philo)
 		return ;
 }
 
-void	start_sleeping(t_room *room, t_philo *philo)
+void	start_sleeping(t_philo *philo)
 {
-	print_state(sleeping, philo, room);
-	usleep(room->time_sleep * 1000);
+	print_state(sleeping, philo);
+	usleep(philo->room->time_sleep * 1000);
 }
 
-void	start_thinking(t_room *room, t_philo *philo)
+void	*check(void *ptr)
 {
-	print_state(thinking, philo, room);
-}
+	t_philo			*philo;
+	long long int	diff;
 
-int	check_death(t_room *room, t_philo *philo)
-{
-	long long	time;
-	long long	diff;
-
-	time = get_timestamp();
-	diff = time - philo->last_eaten;
-	if (diff >= room->time_die)
+	philo = (t_philo *)ptr;
+	while (1)
 	{
-		print_state(dead, philo, room);
-		return (0);
+		diff = get_timediff(get_timestamp(), philo->last_eaten);
+		if (diff >= philo->room->time_die && philo->is_eating != 1)
+		{
+			print_state(dead, philo);
+			exit(0);
+		}
+		usleep(1000);
 	}
+	return (ptr);
+}
+
+int	check_death(t_philo *philo)
+{
+	pthread_t		death;
+
+	pthread_create(&death, NULL, &check, philo);
 	return (1);
 }
