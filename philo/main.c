@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/08/30 16:59:36 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/06 13:12:06 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	main(int argc, char *argv[])
 	{
 		room = init_room(room, argv);
 		create_room(room);
-		// print_room(room);
 	}
 	exit(0);
 }

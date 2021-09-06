@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 13:08:40 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/06 16:26:34 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,13 @@ void		*ft_calloc(size_t blocks, size_t size);
 void		create_room(t_room *room);
 long long	get_timestamp(void);
 long long	get_timediff(long long past, long long pres);
-int			check_death(t_philo *philo);
+int			check_death(t_philo *philo, pthread_t *death);
 t_philo		*create_philo(t_room *room, t_philo *philo);
 void		*start_routine(void *ptr);
 void		start_eating(t_philo *philo);
 void		start_sleeping(t_philo *philo);
 void		start_thinking(t_philo *philo);
 void		print_state(int state, t_philo *philo);
+void		smartsleep(int ms);
 
 #endif

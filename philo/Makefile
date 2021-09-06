@@ -6,19 +6,20 @@
 #    By: katherine <katherine@student.codam.nl>       +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/08/09 15:35:47 by katherine     #+#    #+#                  #
-#    Updated: 2021/09/06 11:12:48 by kfu           ########   odam.nl          #
+#    Updated: 2021/09/06 16:23:36 by kfu           ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	philo
 CC			= 	gcc
 RM			=	rm -f
-CFLAGS		= 	-Wall -Wextra -Werror -g3 -fsanitize=address -pthread
+CFLAGS		= 	-Wall -Wextra -g3 -fsanitize=address -pthread
 
 LIBS		=	-o
 
 SRC			= 	main.c\
 				utils.c\
+				utils2.c\
 				parsing.c\
 				create.c\
 				routine.c

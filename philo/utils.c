@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/15 18:57:33 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 13:08:33 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/06 16:31:33 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,20 @@
 void	print_state(int state, t_philo *philo)
 {
 	if (state == taken_fork)
-		printf("%lli %i has taken a fork\n", get_timestamp() - philo->room->start_time, philo->position);
+		printf("%lli %i has taken a fork\n", get_timestamp() \
+		- philo->room->start_time, philo->position);
 	if (state == eating)
-		printf("%lli %i is eating\n", get_timestamp() - philo->room->start_time, philo->position);
+		printf("%lli %i is eating\n", get_timestamp() \
+		- philo->room->start_time, philo->position);
 	if (state == sleeping)
-		printf("%lli %i is sleeping\n", get_timestamp() - philo->room->start_time, philo->position);
+		printf("%lli %i is sleeping\n", get_timestamp() \
+		- philo->room->start_time, philo->position);
 	if (state == thinking)
-		printf("%lli %i is thinking\n", get_timestamp() - philo->room->start_time, philo->position);
+		printf("%lli %i is thinking\n", get_timestamp() \
+		- philo->room->start_time, philo->position);
 	if (state == dead)
-		printf("%lli %i had died\n", get_timestamp() - philo->room->start_time, philo->position);
+		printf("%lli %i died\n", get_timestamp() \
+		- philo->room->start_time, philo->position);
 }
 
 long long	get_timestamp(void)
@@ -60,19 +65,11 @@ void	*ft_calloc(size_t blocks, size_t size)
 	return ((void *)ptr);
 }
 
-void	print_room(t_room *room)
-{
-	printf("NUM OF PHILO: %i\n", room->num_philo);
-	printf("TIME TO DIE: %i\n", room->time_die);
-	printf("TIME TO EAT: %i\n", room->time_eat);
-	printf("TIME TO SLEEP: %i\n", room->time_sleep);
-	printf("TIMES EAT: %i\n", room->min_times_eat);
-}
-
 void	error_and_exit(int error)
 {
 	if (error == invalid_args)
-		printf("./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
+		printf("./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] \
+		[number_of_times_each_philosopher_must_eat]\n");
 	if (error == wrong_args)
 		printf("Argument error\n");
 	if (error == malloc_fail)
