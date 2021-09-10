@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 17:18:33 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/10 16:40:45 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_room
 	int					time_sleep;
 	int					min_times_eat;
 	int					position;
+	int					philo_died;
 	pthread_mutex_t		*forks;
 	pthread_t			*threads;
 	long long			start_time;
@@ -72,10 +73,7 @@ long long	get_timediff(long long past, long long pres);
 int			check_death(t_philo *philo, pthread_t *death);
 t_philo		*create_philo(t_room *room, t_philo *philo);
 void		*start_routine(void *ptr);
-void		start_eating(t_philo *philo);
-void		start_sleeping(t_philo *philo);
-void		start_thinking(t_philo *philo);
 void		print_state(int state, t_philo *philo);
-void		smartsleep(int ms);
+int			smartsleep(int ms, t_philo *philo);
 
 #endif

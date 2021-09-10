@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 13:12:06 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/10 16:35:39 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_room	*init_room(t_room *room, char *argv[])
 	else
 		room->min_times_eat = -1;
 	room->start_time = get_timestamp();
+	room->philo_died = 0;
 	return (room);
 }
 
@@ -47,5 +48,5 @@ int	main(int argc, char *argv[])
 		room = init_room(room, argv);
 		create_room(room);
 	}
-	exit(0);
+	return (0);
 }
