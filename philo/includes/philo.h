@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 16:26:34 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/06 17:18:33 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ typedef struct s_philo
 	int				position;
 	int				is_eating;
 	int				times_eaten;
+	long long		last_eaten;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	long long		last_eaten;
 	t_room			*room;
 }	t_philo;
 

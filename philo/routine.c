@@ -6,11 +6,30 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/06 16:34:31 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/10 14:49:36 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	*check(void *ptr)
+{
+	t_philo			*philo;
+	long long int	diff;
+
+	philo = (t_philo *)ptr;
+	while (1)
+	{
+		diff = get_timediff(get_timestamp(), philo->last_eaten);
+		if (diff > philo->room->time_die && philo-> is_eating != 1)
+		{
+			print_state(dead, philo);
+			exit(0);
+		}
+		smartsleep(1);
+	}
+	return (ptr);
+}
 
 void	*start_routine(void *ptr)
 {
@@ -25,7 +44,8 @@ void	*start_routine(void *ptr)
 	death = (pthread_t *)ft_calloc(1, sizeof(pthread_t));
 	if (philo->position % 2)
 		smartsleep(1);
-	while (check_death(philo, death))
+	pthread_create(death, NULL, &check, philo);
+	while (1)
 	{
 		start_eating(philo);
 		start_sleeping(philo);
@@ -61,30 +81,4 @@ void	start_sleeping(t_philo *philo)
 {
 	print_state(sleeping, philo);
 	smartsleep(philo->room->time_sleep);
-}
-
-void	*check(void *ptr)
-{
-	t_philo			*philo;
-	long long int	diff;
-
-	philo = (t_philo *)ptr;
-	while (1)
-	{
-		diff = get_timediff(get_timestamp(), philo->last_eaten);
-		if (diff > philo->room->time_die && philo-> is_eating != 1)
-		{
-			printf("DIFF: %lli\n", diff);
-			print_state(dead, philo);
-			exit(0);
-		}
-		smartsleep(1);
-	}
-	return (ptr);
-}
-
-int	check_death(t_philo *philo, pthread_t *death)
-{
-	pthread_create(death, NULL, &check, philo);
-	return (1);
 }
