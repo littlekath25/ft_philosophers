@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/10 16:40:45 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/10 16:51:09 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ t_philo		*create_philo(t_room *room, t_philo *philo);
 void		*start_routine(void *ptr);
 void		print_state(int state, t_philo *philo);
 int			smartsleep(int ms, t_philo *philo);
+void		*check(void *ptr);
 
 #endif

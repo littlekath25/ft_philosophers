@@ -6,20 +6,42 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/10 16:44:35 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/10 16:54:17 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	start_eating(t_philo *philo)
+static int	drop_forks(t_philo *philo)
+{
+	if (pthread_mutex_unlock(philo->left_fork))
+		return (0);
+	if (pthread_mutex_unlock(philo->right_fork))
+		return (0);
+	return (1);
+}
+
+static int	take_forks(t_philo *philo)
 {
 	if (philo->room->philo_died)
 		return (0);
 	if (pthread_mutex_lock(philo->left_fork))
 		return (0);
 	print_state(taken_fork, philo);
+	if (philo->room->philo_died)
+		return (0);
 	if (pthread_mutex_lock(philo->right_fork))
+		return (0);
+	if (philo->room->philo_died)
+		return (0);
+	return (1);
+}
+
+static int	start_eating(t_philo *philo)
+{
+	if (philo->room->philo_died)
+		return (0);
+	if (!take_forks(philo))
 		return (0);
 	print_state(taken_fork, philo);
 	philo->is_eating = 1;
@@ -28,14 +50,12 @@ int	start_eating(t_philo *philo)
 	philo->last_eaten = get_timestamp();
 	philo->is_eating = 0;
 	philo->times_eaten++;
-	if (pthread_mutex_unlock(philo->left_fork))
-		return (0);
-	if (pthread_mutex_unlock(philo->right_fork))
+	if (!drop_forks(philo))
 		return (0);
 	return (1);
 }
 
-int	start_sleeping(t_philo *philo)
+static int	start_sleeping(t_philo *philo)
 {
 	if (philo->room->philo_died)
 		return (0);
@@ -43,26 +63,6 @@ int	start_sleeping(t_philo *philo)
 	if (!smartsleep(philo->room->time_sleep, philo))
 		return (0);
 	return (1);
-}
-
-void	*check(void *ptr)
-{
-	t_philo			*philo;
-	long long int	diff;
-
-	philo = (t_philo *)ptr;
-	while (!philo->room->philo_died)
-	{
-		diff = get_timediff(get_timestamp(), philo->last_eaten);
-		if (diff > philo->room->time_die && philo-> is_eating != 1)
-		{
-			print_state(dead, philo);
-			philo->room->philo_died = 1;
-			break ;
-		}
-		smartsleep(1, philo);
-	}
-	return (ptr);
 }
 
 void	*start_routine(void *ptr)

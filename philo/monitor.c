@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils2.c                                           :+:    :+:            */
+/*   monitor.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/09/06 16:23:04 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/10 16:40:34 by kfu           ########   odam.nl         */
+/*   Created: 2021/09/10 16:50:26 by kfu           #+#    #+#                 */
+/*   Updated: 2021/09/10 16:51:27 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,24 @@ int	smartsleep(int ms, t_philo *philo)
 		elapse = get_timediff(get_timestamp(), time);
 	}
 	return (1);
+}
+
+void	*check(void *ptr)
+{
+	t_philo			*philo;
+	long long int	diff;
+
+	philo = (t_philo *)ptr;
+	while (!philo->room->philo_died)
+	{
+		diff = get_timediff(get_timestamp(), philo->last_eaten);
+		if (diff > philo->room->time_die && philo-> is_eating != 1)
+		{
+			print_state(dead, philo);
+			philo->room->philo_died = 1;
+			break ;
+		}
+		smartsleep(1, philo);
+	}
+	return (ptr);
 }
