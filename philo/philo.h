@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:31:57 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 17:09:38 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:16:26 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_room
 	int					time_sleep;
 	int					min_times_eat;
 	int					philo_died;
+	int					satisfied;
 	pthread_mutex_t		monitor;
 	pthread_mutex_t		forks[200];
 	t_philo				philos[200];

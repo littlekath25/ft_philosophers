@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:00:58 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:16:12 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ void	*start_routine(void *ptr)
 		start_eating(philo);
 		if (philo->room->min_times_eat > 0 && \
 		philo->times_eaten >= philo->room->min_times_eat)
+		{
+			philo->room->satisfied++;
 			break ;
+		}
 		print_state(sleeping, philo);
 		smartsleep(philo->room->time_sleep, philo);
 		print_state(thinking, philo);

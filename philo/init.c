@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:00:40 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:16:47 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_room	*init_room(t_room *room, char *argv[])
 	else
 		room->min_times_eat = -1;
 	room->philo_died = 0;
+	room->satisfied = 0;
 	room = init_forks(room);
 	room = init_philos(room);
 	return (room);

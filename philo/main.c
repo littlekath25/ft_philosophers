@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:06:12 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:17:30 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	monitor(t_room *room)
 {
 	int	i;
 
-	while (!room->philo_died)
+	while (!room->philo_died && room->satisfied <= room->min_times_eat)
 	{
 		i = 0;
 		while (i < room->num_philo)
