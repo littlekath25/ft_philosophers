@@ -5,24 +5,23 @@
 #                                                      +:+                     #
 #    By: katherine <katherine@student.codam.nl>       +#+                      #
 #                                                    +#+                       #
-#    Created: 2021/08/09 15:35:47 by katherine     #+#    #+#                  #
-#    Updated: 2021/09/10 16:51:45 by kfu           ########   odam.nl          #
+#    Created: 2021/09/13 11:32:28 by katherine     #+#    #+#                  #
+#    Updated: 2021/09/13 17:12:58 by katherine     ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	philo
 CC			= 	gcc
 RM			=	rm -f
-CFLAGS		= 	-Wall -Wextra -Werror -g3 -fsanitize=address -pthread
+CFLAGS		= 	-Wall -Wextra -g3 -fsanitize=address -pthread
 
 LIBS		=	-o
 
 SRC			= 	main.c\
-				utils.c\
 				parsing.c\
-				create.c\
+				utils.c\
 				routine.c\
-				monitor.c
+				init.c
 OBJ			=	$(SRC:%.c=%.o)
 
 all: $(NAME)

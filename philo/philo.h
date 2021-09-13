@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/08/09 15:30:40 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/10 16:51:09 by kfu           ########   odam.nl         */
+/*   Created: 2021/09/13 11:31:57 by katherine     #+#    #+#                 */
+/*   Updated: 2021/09/13 17:09:38 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,18 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
+typedef struct s_philo
+{
+	int				position;
+	int				is_eating;
+	int				times_eaten;
+	int				left_fork;
+	int				right_fork;
+	long long		last_eaten;
+	struct s_room	*room;
+	pthread_t		thread;
+}	t_philo;
+
 typedef struct s_room
 {
 	int					num_philo;
@@ -26,30 +38,20 @@ typedef struct s_room
 	int					time_eat;
 	int					time_sleep;
 	int					min_times_eat;
-	int					position;
 	int					philo_died;
-	pthread_mutex_t		*forks;
-	pthread_t			*threads;
+	pthread_mutex_t		monitor;
+	pthread_mutex_t		forks[200];
+	t_philo				philos[200];
 	long long			start_time;
 }	t_room;
-
-typedef struct s_philo
-{
-	int				position;
-	int				is_eating;
-	int				times_eaten;
-	long long		last_eaten;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
-	t_room			*room;
-}	t_philo;
 
 typedef enum e_errors
 {
 	invalid_args,
 	wrong_args,
 	malloc_fail,
-	mutex_error
+	mutex_error,
+	thread_error
 }	t_errors;
 
 typedef enum e_states
@@ -61,20 +63,18 @@ typedef enum e_states
 	dead
 }	t_states;
 
-void		error_and_exit(int error);
-int			ft_atoi(const char *str);
-void		print_room(t_room *room);
-t_room		*init_room(t_room *room, char *argv[]);
 int			check_input(int argc, char *argv[]);
-void		*ft_calloc(size_t blocks, size_t size);
-void		create_room(t_room *room);
+int			ft_atoi(const char *str);
+void		print_state(int state, t_philo *philo);
+void		print_error(int error);
 long long	get_timestamp(void);
 long long	get_timediff(long long past, long long pres);
-int			check_death(t_philo *philo, pthread_t *death);
-t_philo		*create_philo(t_room *room, t_philo *philo);
+void		*ft_calloc(size_t blocks, size_t size);
 void		*start_routine(void *ptr);
-void		print_state(int state, t_philo *philo);
-int			smartsleep(int ms, t_philo *philo);
-void		*check(void *ptr);
+void		smartsleep(int ms, t_philo *philo);
+
+t_room		*init_room(t_room *room, char *argv[]);
+t_room		*init_forks(t_room *room);
+t_room		*init_philos(t_room *room);
 
 #endif

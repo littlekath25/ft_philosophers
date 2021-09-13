@@ -5,91 +5,58 @@
 /*                                                     +:+                    */
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/08/30 12:37:13 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/10 16:54:17 by kfu           ########   odam.nl         */
+/*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
+/*   Updated: 2021/09/13 18:00:58 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	drop_forks(t_philo *philo)
+void	smartsleep(int ms, t_philo *philo)
 {
-	if (pthread_mutex_unlock(philo->left_fork))
-		return (0);
-	if (pthread_mutex_unlock(philo->right_fork))
-		return (0);
-	return (1);
+	long long	start;
+
+	start = get_timestamp();
+	while (!philo->room->philo_died)
+	{
+		if (get_timediff(start, get_timestamp()) >= ms)
+			break ;
+		usleep(100);
+	}
 }
 
-static int	take_forks(t_philo *philo)
+static void	start_eating(t_philo *philo)
 {
-	if (philo->room->philo_died)
-		return (0);
-	if (pthread_mutex_lock(philo->left_fork))
-		return (0);
+	pthread_mutex_lock(&philo->room->forks[philo->left_fork]);
 	print_state(taken_fork, philo);
-	if (philo->room->philo_died)
-		return (0);
-	if (pthread_mutex_lock(philo->right_fork))
-		return (0);
-	if (philo->room->philo_died)
-		return (0);
-	return (1);
-}
-
-static int	start_eating(t_philo *philo)
-{
-	if (philo->room->philo_died)
-		return (0);
-	if (!take_forks(philo))
-		return (0);
+	pthread_mutex_lock(&philo->room->forks[philo->right_fork]);
 	print_state(taken_fork, philo);
+	philo->last_eaten = get_timestamp();
 	philo->is_eating = 1;
 	print_state(eating, philo);
 	smartsleep(philo->room->time_eat, philo);
-	philo->last_eaten = get_timestamp();
 	philo->is_eating = 0;
 	philo->times_eaten++;
-	if (!drop_forks(philo))
-		return (0);
-	return (1);
-}
-
-static int	start_sleeping(t_philo *philo)
-{
-	if (philo->room->philo_died)
-		return (0);
-	print_state(sleeping, philo);
-	if (!smartsleep(philo->room->time_sleep, philo))
-		return (0);
-	return (1);
+	pthread_mutex_unlock(&philo->room->forks[philo->left_fork]);
+	pthread_mutex_unlock(&philo->room->forks[philo->right_fork]);
 }
 
 void	*start_routine(void *ptr)
 {
-	t_philo			*philo;
-	t_room			*room;
-	pthread_t		*death;
+	t_philo	*philo;
 
-	room = (t_room *)ptr;
-	philo = NULL;
-	philo = create_philo(room, philo);
-	philo->last_eaten = get_timestamp();
-	death = (pthread_t *)ft_calloc(1, sizeof(pthread_t));
+	philo = (t_philo *)ptr;
 	if (philo->position % 2)
-		smartsleep(1, philo);
-	pthread_create(death, NULL, &check, philo);
+		usleep(1000);
 	while (!philo->room->philo_died)
 	{
-		if (!start_eating(philo))
+		start_eating(philo);
+		if (philo->room->min_times_eat > 0 && \
+		philo->times_eaten >= philo->room->min_times_eat)
 			break ;
-		if (!start_sleeping(philo))
-			break ;
-		if (!philo->room->philo_died)
-			print_state(thinking, philo);
-		if (room->min_times_eat > 0 && \
-		philo->times_eaten == room->min_times_eat)
-			break ;
+		print_state(sleeping, philo);
+		smartsleep(philo->room->time_sleep, philo);
+		print_state(thinking, philo);
 	}
-	return (room);
+	return (ptr);
 }

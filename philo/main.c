@@ -5,35 +5,71 @@
 /*                                                     +:+                    */
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/08/09 15:30:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/10 16:35:39 by kfu           ########   odam.nl         */
+/*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
+/*   Updated: 2021/09/13 18:02:53 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-t_room	*init_room(t_room *room, char *argv[])
+static void	exit_room(t_room *room)
 {
-	room = (t_room *)malloc(sizeof(t_room) * 1);
-	room->position = 1;
-	room->num_philo = ft_atoi(argv[1]);
-	room->time_die = ft_atoi(argv[2]);
-	room->time_eat = ft_atoi(argv[3]);
-	room->time_sleep = ft_atoi(argv[4]);
-	if (room->num_philo < 2 || room->time_die < 0 \
-	|| room->time_eat < 0 || room->time_sleep < 0)
-		error_and_exit(wrong_args);
-	if (argv[5])
+	int	i;
+
+	i = 0;
+	while (i < room->num_philo)
 	{
-		room->min_times_eat = ft_atoi(argv[5]);
-		if (room->min_times_eat < 0)
-			error_and_exit(wrong_args);
+		pthread_join(room->philos[i].thread, NULL);
+		i++;
 	}
-	else
-		room->min_times_eat = -1;
+	i = 0;
+	while (i < room->num_philo)
+	{
+		pthread_mutex_destroy(&room->forks[i]);
+		i++;
+	}
+	free(room);
+}
+
+static void	monitor(t_room *room)
+{
+	int	i;
+
+	while (!room->philo_died)
+	{
+		i = 0;
+		while (i < room->num_philo)
+		{
+			pthread_mutex_lock(&room->monitor);
+			if (get_timediff(room->philos[i].last_eaten, get_timestamp()) >= \
+			room->time_die)
+			{
+				print_state(dead, &room->philos[i]);
+				room->philo_died = 1;
+				break ;
+			}
+			pthread_mutex_unlock(&room->monitor);
+			i++;
+		}
+		usleep(100);
+	}
+}
+
+static int	start_threads(t_room *room)
+{
+	int	i;
+
+	i = 0;
 	room->start_time = get_timestamp();
-	room->philo_died = 0;
-	return (room);
+	while (i < room->num_philo)
+	{
+		if (pthread_create(&room->philos[i].thread, \
+		NULL, &start_routine, &room->philos[i]))
+			return (0);
+		i++;
+	}
+	monitor(room);
+	return (1);
 }
 
 int	main(int argc, char *argv[])
@@ -41,12 +77,14 @@ int	main(int argc, char *argv[])
 	t_room	*room;
 
 	room = NULL;
-	if (check_input(argc, argv) == 0)
-		error_and_exit(invalid_args);
+	if (!check_input(argc, argv))
+		print_error(invalid_args);
 	else
 	{
 		room = init_room(room, argv);
-		create_room(room);
+		if (!start_threads(room))
+			print_error(thread_error);
 	}
+	exit_room(room);
 	return (0);
 }
