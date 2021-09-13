@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:16:47 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:33:54 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ t_room	*init_room(t_room *room, char *argv[])
 {
 	room = (t_room *)malloc(sizeof(t_room) * 1);
 	room->num_philo = ft_atoi(argv[1]);
-	if (room->num_philo > 200)
+	if (room->num_philo > 200 || room->num_philo < 2)
 	{
 		print_error(wrong_args);
-		return (room);
+		return (NULL);
 	}
 	room->time_die = ft_atoi(argv[2]);
 	room->time_eat = ft_atoi(argv[3]);
@@ -62,7 +62,7 @@ t_room	*init_room(t_room *room, char *argv[])
 	if (room->num_philo < 1)
 	{
 		print_error(wrong_args);
-		return (room);
+		return (NULL);
 	}
 	if (argv[5])
 		room->min_times_eat = ft_atoi(argv[5]);

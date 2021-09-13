@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:39:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 16:06:50 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:36:54 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 void	print_error(int error)
 {
 	if (error == invalid_args)
-		printf("./philo [number_of_philosophers] [time_to_die] [time_to_eat] \
-		[time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
+		printf("./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]\n");
 	if (error == wrong_args)
 		printf("Argument error\n");
 	if (error == malloc_fail)

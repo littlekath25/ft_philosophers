@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:08 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 11:52:36 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:38:39 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,22 @@ int	ft_atoi(const char *str)
 int	check_input(int argc, char *argv[])
 {
 	int	i;
+	int	num_philo;
 
 	i = 1;
+	num_philo = ft_atoi(argv[1]);
 	if (argc < 5 || argc > 6)
-		return (0);
+		return (2);
+	else if (num_philo < 2 || num_philo > 200)
+		return (1);
 	else
 	{
 		while (argv[i])
 		{
 			if (!ft_isalldigits(argv[i]))
-			{
-				print_error(wrong_args);
-				break ;
-			}
+				return (1);
 			i++;
 		}
 	}
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:17:30 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:37:32 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,31 @@ static void	exit_room(t_room *room)
 	int	i;
 
 	i = 0;
-	while (i < room->num_philo)
+	if (room)
 	{
-		pthread_join(room->philos[i].thread, NULL);
-		i++;
+		while (i < room->num_philo)
+		{
+			pthread_join(room->philos[i].thread, NULL);
+			i++;
+		}
+		i = 0;
+		while (i < room->num_philo)
+		{
+			pthread_mutex_destroy(&room->forks[i]);
+			i++;
+		}
 	}
-	i = 0;
-	while (i < room->num_philo)
-	{
-		pthread_mutex_destroy(&room->forks[i]);
-		i++;
-	}
-	free(room);
 }
 
 static void	monitor(t_room *room)
 {
 	int	i;
 
-	while (!room->philo_died && room->satisfied <= room->min_times_eat)
+	while (!room->philo_died)
 	{
 		i = 0;
+		if (room->satisfied == room->min_times_eat)
+			break ;
 		while (i < room->num_philo)
 		{
 			pthread_mutex_lock(&room->monitor);
@@ -75,16 +79,21 @@ static int	start_threads(t_room *room)
 int	main(int argc, char *argv[])
 {
 	t_room	*room;
+	int		check;
 
 	room = NULL;
-	if (!check_input(argc, argv))
+	check = check_input(argc, argv);
+	if (check == 1)
+		print_error(wrong_args);
+	else if (check == 2)
 		print_error(invalid_args);
 	else
 	{
 		room = init_room(room, argv);
 		if (!start_threads(room))
 			print_error(thread_error);
+		exit_room(room);
 	}
-	exit_room(room);
+	free(room);
 	return (0);
 }
