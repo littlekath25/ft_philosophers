@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:02:53 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/13 18:06:12 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	monitor(t_room *room)
 		while (i < room->num_philo)
 		{
 			pthread_mutex_lock(&room->monitor);
-			if (get_timediff(room->philos[i].last_eaten, get_timestamp()) >= \
+			if (get_timediff(room->philos[i].last_eaten, get_timestamp()) > \
 			room->time_die)
 			{
 				print_state(dead, &room->philos[i]);
