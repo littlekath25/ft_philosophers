@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/13 18:37:32 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/17 14:15:56 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,23 @@ int	main(int argc, char *argv[])
 	int		check;
 
 	room = NULL;
-	check = check_input(argc, argv);
-	if (check == 1)
-		print_error(wrong_args);
-	else if (check == 2)
-		print_error(invalid_args);
-	else
+	if (argc > 1)
 	{
-		room = init_room(room, argv);
-		if (!start_threads(room))
-			print_error(thread_error);
-		exit_room(room);
+		check = check_input(argc, argv);
+		if (check == 1)
+			print_error(wrong_args);
+		else if (check == 2)
+			print_error(invalid_args);
+		else
+		{
+			room = init_room(room, argv);
+			if (!start_threads(room))
+				print_error(thread_error);
+			exit_room(room);
+		}
+		free(room);
 	}
-	free(room);
+	else
+		print_error(invalid_args);
 	return (0);
 }

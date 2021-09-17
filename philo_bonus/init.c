@@ -6,11 +6,11 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/17 14:49:19 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/17 16:59:38 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 static t_room	*init_philos(t_room *room)
 {
@@ -28,20 +28,6 @@ static t_room	*init_philos(t_room *room)
 			room->philos[i].right_fork = 0;
 		room->philos[i].last_eaten = get_timestamp();
 		room->philos[i].room = room;
-		i++;
-	}
-	return (room);
-}
-
-static t_room	*init_forks(t_room *room)
-{
-	int	i;
-
-	i = 0;
-	while (i < room->num_philo)
-	{
-		if (pthread_mutex_init(&room->forks[i], NULL))
-			print_error(mutex_error);
 		i++;
 	}
 	return (room);

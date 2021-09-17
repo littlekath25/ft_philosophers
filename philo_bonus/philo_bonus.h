@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   philo.h                                            :+:    :+:            */
+/*   philo_bonus.h                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: katherine <katherine@student.codam.nl>       +#+                     */
+/*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/09/13 11:31:57 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/17 14:49:38 by kfu           ########   odam.nl         */
+/*   Created: 2021/09/17 13:46:54 by kfu           #+#    #+#                 */
+/*   Updated: 2021/09/17 16:59:10 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
 # include <stdio.h>
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <semaphore.h>
 
 typedef struct s_philo
 {
@@ -40,8 +41,7 @@ typedef struct s_room
 	int					min_times_eat;
 	int					philo_died;
 	int					satisfied;
-	pthread_mutex_t		monitor;
-	pthread_mutex_t		forks[200];
+	sem_t				forks[200];
 	t_philo				philos[200];
 	long long			start_time;
 }	t_room;
@@ -66,11 +66,9 @@ typedef enum e_states
 
 int			check_input(int argc, char *argv[]);
 int			ft_atoi(const char *str);
-long long	get_timestamp(void);
-long long	get_timediff(long long past, long long pres);
 void		*ft_calloc(size_t blocks, size_t size);
-void		*start_routine(void *ptr);
-void		smartsleep(int ms, t_philo *philo);
+long long	get_timediff(long long past, long long pres);
+long long	get_timestamp(void);
 
 t_room		*init_room(t_room *room, char *argv[]);
 
