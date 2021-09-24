@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:31:57 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/17 14:49:38 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/21 15:11:45 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef struct s_room
 	int					philo_died;
 	int					satisfied;
 	pthread_mutex_t		monitor;
-	pthread_mutex_t		forks[200];
-	t_philo				philos[200];
+	pthread_mutex_t		forks[201];
+	t_philo				philos[201];
 	long long			start_time;
 }	t_room;
 

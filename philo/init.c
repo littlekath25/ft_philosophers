@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/17 14:49:19 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 13:52:38 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ t_room	*init_room(t_room *room, char *argv[])
 	}
 	room->philo_died = 0;
 	room->satisfied = 0;
+	room = init_forks(room);
 	room = init_philos(room);
 	return (room);
 }
