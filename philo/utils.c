@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:39:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/24 13:55:07 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 15:59:32 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_state(int state, t_philo *philo)
 		printf("%lli %i is thinking\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
 	if (state == dead)
-		printf("%lli %i died ---------------------------------\n", get_timestamp() \
+		printf("%lli %i died\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
 }
 

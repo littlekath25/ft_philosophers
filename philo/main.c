@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/17 14:15:56 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 15:55:29 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	monitor(t_room *room)
 			pthread_mutex_unlock(&room->monitor);
 			i++;
 		}
-		usleep(100);
+		smartsleep(100, room->philos);
 	}
 }
 
