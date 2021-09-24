@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:54 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/17 16:59:10 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 16:31:28 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
 
 typedef struct s_philo
 {
@@ -29,7 +30,7 @@ typedef struct s_philo
 	int				right_fork;
 	long long		last_eaten;
 	struct s_room	*room;
-	pthread_t		thread;
+	pid_t			id;
 }	t_philo;
 
 typedef struct s_room
@@ -69,8 +70,10 @@ int			ft_atoi(const char *str);
 void		*ft_calloc(size_t blocks, size_t size);
 long long	get_timediff(long long past, long long pres);
 long long	get_timestamp(void);
+void		start_routine(t_philo *philo);
 
 t_room		*init_room(t_room *room, char *argv[]);
+void		smartsleep(int ms, t_philo *philo);
 
 void		print_state(int state, t_philo *philo);
 void		print_error(int error);
