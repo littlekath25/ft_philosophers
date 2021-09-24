@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/24 16:32:02 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 16:40:23 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	smartsleep(int ms, t_philo *philo)
 
 static void	start_eating(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->room->forks[philo->left_fork]);
+	sem_wait(&philo->room->forks[philo->left_fork]);
 	print_state(taken_fork, philo);
-	pthread_mutex_lock(&philo->room->forks[philo->right_fork]);
+	sem_wait(&philo->room->forks[philo->right_fork]);
 	print_state(taken_fork, philo);
 	philo->last_eaten = get_timestamp();
 	philo->is_eating = 1;
@@ -37,8 +37,8 @@ static void	start_eating(t_philo *philo)
 	smartsleep(philo->room->time_eat, philo);
 	philo->is_eating = 0;
 	philo->times_eaten++;
-	pthread_mutex_unlock(&philo->room->forks[philo->left_fork]);
-	pthread_mutex_unlock(&philo->room->forks[philo->right_fork]);
+	sem_post(&philo->room->forks[philo->left_fork]);
+	sem_post(&philo->room->forks[philo->right_fork]);
 }
 
 void	start_routine(t_philo *philo)

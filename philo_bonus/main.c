@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:41 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/24 16:31:48 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/24 16:44:03 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	kill_all(t_room *room)
 
 static void	monitor(t_room *room)
 {
-	int	i;
+	int		i;
+	pid_t	id;
 
 	while (!room->philo_died)
 	{
