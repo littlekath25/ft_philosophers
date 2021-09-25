@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:41 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/25 16:03:56 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 16:28:49 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,39 @@
 
 static void	kill_all(t_room *room)
 {
-	printf("HELLO\n");
-	kill(-1, SIGKILL);
+	int	i;
+
+	i = 0;
+	while (i < room->num_philo)
+	{
+		kill(room->philos[i].id, SIGQUIT);
+		i++;
+	}
 }
 
 static void	fork_philos(t_room *room)
 {
 	int		i;
+	int		res;
 
 	i = 0;
 	while (i < room->num_philo)
 	{
-		room->philos[i].id = fork();
-		if (room->philos[i].id == 0)
+		res = fork();
+		if (res == 0)
 		{
 			start_routine(&room->philos[i]);
 			break ;
 		}
+		else
+		{
+			room->philos[i].id = res;
+			printf("RES: %i\n", res);
+		}
 		i++;
 	}
-	kill_all(room);
+	if (room->philo_died == 1)
+		kill_all(room);
 }
 
 static void	start_process(t_room *room, char *argv[])

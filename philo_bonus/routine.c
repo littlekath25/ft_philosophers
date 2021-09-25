@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/25 15:37:44 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 16:30:45 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	start_routine(t_philo *philo)
 {
 	pthread_t	monitor_thread;
 
+	philo->id = getpid();
 	if (pthread_create(&monitor_thread, NULL, &monitor, philo))
 		return ;
 	if (philo->position % 2)
