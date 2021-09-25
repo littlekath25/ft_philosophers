@@ -6,23 +6,11 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/25 14:58:55 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 15:37:44 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
-static void	kill_all(t_philo *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo->room->num_philo)
-	{
-		kill(philo->room->philos[i].id, SIGKILL);
-		i++;
-	}
-}
 
 void	smartsleep(int ms, t_philo *philo)
 {
@@ -76,7 +64,6 @@ void	start_routine(t_philo *philo)
 
 	if (pthread_create(&monitor_thread, NULL, &monitor, philo))
 		return ;
-	philo->id = getpid();
 	if (philo->position % 2)
 		usleep(1000);
 	while (!philo->room->philo_died)
@@ -92,5 +79,4 @@ void	start_routine(t_philo *philo)
 		smartsleep(philo->room->time_sleep, philo);
 		print_state(thinking, philo);
 	}
-	kill_all(philo);
 }

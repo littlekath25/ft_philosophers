@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/24 16:17:20 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 15:15:47 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ t_room	*init_room(t_room *room, char *argv[])
 	room->satisfied = 0;
 	room = init_philos(room);
 	room->start_time = get_timestamp();
+	room->parent_id = getpid();
 	return (room);
 }

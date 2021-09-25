@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:54 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/24 16:31:28 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 15:37:12 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_room
 	sem_t				forks[200];
 	t_philo				philos[200];
 	long long			start_time;
+	pid_t				parent_id;
 }	t_room;
 
 typedef enum e_errors
