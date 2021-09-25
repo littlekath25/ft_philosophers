@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 14:16:21 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/17 14:16:39 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 14:21:24 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_error(int error)
 		printf("Malloc fail\n");
 	if (error == mutex_error)
 		printf("Mutex errror\n");
-    if (error == thread_error)
+	if (error == thread_error)
 		printf("Thread errror\n");
 }
 
@@ -31,16 +31,16 @@ void	print_state(int state, t_philo *philo)
 	if (state == taken_fork)
 		printf("%lli %i has taken a fork\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == eating)
+	else if (state == eating)
 		printf("%lli %i is eating\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == sleeping)
+	else if (state == sleeping)
 		printf("%lli %i is sleeping\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == thinking)
+	else if (state == thinking)
 		printf("%lli %i is thinking\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == dead)
+	else if (state == dead)
 		printf("%lli %i died\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
 }

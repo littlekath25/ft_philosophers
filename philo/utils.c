@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:39:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/24 15:59:32 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 12:46:52 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	print_state(int state, t_philo *philo)
 	if (state == taken_fork)
 		printf("%lli %i has taken a fork\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == eating)
+	else if (state == eating)
 		printf("%lli %i is eating\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == sleeping)
+	else if (state == sleeping)
 		printf("%lli %i is sleeping\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
-	if (state == thinking)
+	else if (state == thinking)
 		printf("%lli %i is thinking\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
 	if (state == dead)
