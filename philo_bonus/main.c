@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:41 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/25 16:44:01 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/25 16:52:42 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ static void	fork_philos(t_room *room)
 		if (res != 0)
 			room->philos[i].id = res;
 		else
-			break ;
+		{
+			i++;
+			continue ;
+		}
 		i++;
 	}
 	if (res == 0)
