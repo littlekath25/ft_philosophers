@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:39:28 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/25 12:46:52 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 20:11:59 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,35 @@ void	print_error(int error)
 		printf("Malloc fail\n");
 	if (error == mutex_error)
 		printf("Mutex errror\n");
-    if (error == thread_error)
+	if (error == thread_error)
 		printf("Thread errror\n");
 }
 
 void	print_state(int state, t_philo *philo)
 {
-	if (state == taken_fork)
-		printf("%lli %i has taken a fork\n", get_timestamp() \
-		- philo->room->start_time, philo->position);
-	else if (state == eating)
-		printf("%lli %i is eating\n", get_timestamp() \
-		- philo->room->start_time, philo->position);
-	else if (state == sleeping)
-		printf("%lli %i is sleeping\n", get_timestamp() \
-		- philo->room->start_time, philo->position);
-	else if (state == thinking)
-		printf("%lli %i is thinking\n", get_timestamp() \
-		- philo->room->start_time, philo->position);
-	if (state == dead)
-		printf("%lli %i died\n", get_timestamp() \
-		- philo->room->start_time, philo->position);
+	pthread_mutex_lock(&(*philo->room->print));
+	if (philo->room->philo_died == 0)
+	{
+		if (state == taken_fork)
+			printf("%lli %i has taken a fork\n", get_timestamp() \
+			- philo->room->start_time, philo->position);
+		else if (state == eating)
+			printf("%lli %i is eating\n", get_timestamp() \
+			- philo->room->start_time, philo->position);
+		else if (state == sleeping)
+			printf("%lli %i is sleeping\n", get_timestamp() \
+			- philo->room->start_time, philo->position);
+		else if (state == thinking)
+			printf("%lli %i is thinking\n", get_timestamp() \
+			- philo->room->start_time, philo->position);
+		else if (state == dead)
+		{
+			printf("%lli %i died\n", get_timestamp() \
+			- philo->room->start_time, philo->position);
+			philo->room->philo_died = 1;
+		}
+	}
+	pthread_mutex_unlock(&(*philo->room->print));
 }
 
 long long	get_timestamp(void)

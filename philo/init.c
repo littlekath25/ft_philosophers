@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 17:08:22 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/24 13:52:38 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 19:56:56 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_room	*init_philos(t_room *room)
 	return (room);
 }
 
-static t_room	*init_forks(t_room *room)
+static t_room	*init_forks_and_print(t_room *room)
 {
 	int	i;
 
@@ -41,9 +41,25 @@ static t_room	*init_forks(t_room *room)
 	while (i < room->num_philo)
 	{
 		if (pthread_mutex_init(&room->forks[i], NULL))
+		{
 			print_error(mutex_error);
+			return (NULL);
+		}
 		i++;
 	}
+	room->print = ft_calloc(sizeof(pthread_t), 1);
+	if (pthread_mutex_init(&(*room->print), NULL))
+	{
+		print_error(mutex_error);
+		return (NULL);
+	}
+	return (room);
+}
+
+static t_room	*init_philos_and_forks(t_room *room)
+{
+	room = init_forks_and_print(room);
+	room = init_philos(room);
 	return (room);
 }
 
@@ -70,7 +86,6 @@ t_room	*init_room(t_room *room, char *argv[])
 	}
 	room->philo_died = 0;
 	room->satisfied = 0;
-	room = init_forks(room);
-	room = init_philos(room);
+	room = init_philos_and_forks(room);
 	return (room);
 }

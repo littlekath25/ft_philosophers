@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:31:57 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/21 15:11:45 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 19:48:40 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_room
 	pthread_mutex_t		forks[201];
 	t_philo				philos[201];
 	long long			start_time;
+	pthread_mutex_t		*print;
 }	t_room;
 
 typedef enum e_errors

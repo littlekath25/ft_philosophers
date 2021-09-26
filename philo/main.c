@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/25 14:39:17 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 20:12:25 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	monitor(t_room *room)
 			room->time_die)
 			{
 				print_state(dead, &room->philos[i]);
-				room->philo_died = 1;
 				break ;
 			}
 			pthread_mutex_unlock(&room->monitor);
@@ -96,6 +95,7 @@ int	main(int argc, char *argv[])
 				print_error(thread_error);
 			exit_room(room);
 		}
+		free(room->print);
 		free(room);
 	}
 	else
