@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 13:46:54 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/25 15:37:12 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 16:14:46 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <sys/time.h>
 # include <semaphore.h>
 # include <signal.h>
+# include <sys/wait.h>
+
+# define DEATH_EXIT 3
+# define STATUS 0
 
 typedef struct s_philo
 {
@@ -46,6 +50,7 @@ typedef struct s_room
 	t_philo				philos[200];
 	long long			start_time;
 	pid_t				parent_id;
+	sem_t				print;
 }	t_room;
 
 typedef enum e_errors

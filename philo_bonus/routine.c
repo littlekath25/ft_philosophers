@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/25 16:53:17 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 16:00:16 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ static void	*monitor(void *ptr)
 	t_philo	*philo;
 
 	philo = (t_philo *)ptr;
-	while (get_timediff(philo->last_eaten, get_timestamp()) \
-	< philo->room->time_die)
+	while (get_timediff(philo->last_eaten, \
+	get_timestamp()) < philo->room->time_die)
 	{
 		if (philo->room->satisfied == philo->room->min_times_eat)
 			return (ptr);
-		smartsleep(50, philo->room->philos);
+		smartsleep(100, philo->room->philos);
 	}
 	print_state(dead, philo);
 	philo->room->philo_died = 1;
@@ -64,7 +64,7 @@ void	start_routine(t_philo *philo)
 
 	philo->id = getpid();
 	if (pthread_create(&monitor_thread, NULL, &monitor, philo))
-		return ;
+		exit(-1);
 	if (philo->position % 2)
 		usleep(1000);
 	while (!philo->room->philo_died)
@@ -80,4 +80,6 @@ void	start_routine(t_philo *philo)
 		smartsleep(philo->room->time_sleep, philo);
 		print_state(thinking, philo);
 	}
+	if (philo->room->philo_died == 1)
+		exit(DEATH_EXIT);
 }

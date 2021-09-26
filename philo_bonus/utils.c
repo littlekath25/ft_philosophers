@@ -6,7 +6,7 @@
 /*   By: kfu <kfu@student.codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/17 14:16:21 by kfu           #+#    #+#                 */
-/*   Updated: 2021/09/25 16:30:12 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/26 16:21:00 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	print_error(int error)
 
 void	print_state(int state, t_philo *philo)
 {
+	sem_wait(&philo->room->print);
 	if (state == taken_fork)
 		printf("%lli %i has taken a fork\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
@@ -43,6 +44,8 @@ void	print_state(int state, t_philo *philo)
 	else if (state == dead)
 		printf("%lli %i died\n", get_timestamp() \
 		- philo->room->start_time, philo->position);
+	if (state != dead)
+		sem_post(&philo->room->print);
 }
 
 long long	get_timestamp(void)
