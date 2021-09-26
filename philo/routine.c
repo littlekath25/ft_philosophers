@@ -6,7 +6,7 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 13:48:25 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/26 21:35:44 by katherine     ########   odam.nl         */
+/*   Updated: 2021/09/26 21:38:26 by katherine     ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	smartsleep(int ms, t_philo *philo)
 			break ;
 		else if (philo->is_eating == 0)
 		{
-			if (get_timediff(philo->last_eaten, get_timestamp()) >= philo->room->time_die)
+			if (get_timediff(philo->last_eaten, \
+			get_timestamp()) >= philo->room->time_die)
 			{
 				print_state(dead, philo);
 				philo->room->philo_died = 1;
