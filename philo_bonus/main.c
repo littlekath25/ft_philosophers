@@ -6,73 +6,52 @@
 /*   By: katherine <katherine@student.codam.nl>       +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/09/13 11:40:42 by katherine     #+#    #+#                 */
-/*   Updated: 2021/09/27 11:37:49 by kfu           ########   odam.nl         */
+/*   Updated: 2021/09/27 14:24:17 by kfu           ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-static void	exit_room(t_room *room)
+static void	kill_all(t_room *room)
 {
 	int	i;
 
 	i = 0;
-	if (room)
+	while (i < room->num_philo)
 	{
-		while (i < room->num_philo)
-		{
-			pthread_join(room->philos[i].thread, NULL);
-			i++;
-		}
-		i = 0;
-		while (i < room->num_philo)
-		{
-			pthread_mutex_destroy(&room->forks[i]);
-			i++;
-		}
+		kill(room->philos[i].id, SIGKILL);
+		i++;
 	}
+	sem_unlink("/forks");
+	sem_unlink("/print");
 }
 
-static void	monitor(t_room *room)
+static void	start_forks(t_room *room)
 {
 	int	i;
-
-	while (!room->philo_died)
-	{
-		i = 0;
-		if (room->satisfied == room->min_times_eat)
-			break ;
-		while (i < room->num_philo)
-		{
-			pthread_mutex_lock(&room->monitor);
-			if (get_timediff(room->philos[i].last_eaten, get_timestamp()) > \
-			room->time_die)
-			{
-				print_state(dead, &room->philos[i]);
-				break ;
-			}
-			pthread_mutex_unlock(&room->monitor);
-			i++;
-		}
-		smartsleep(50, room->philos);
-	}
-}
-
-static int	start_threads(t_room *room)
-{
-	int	i;
+	int	res;
+	int	status;
 
 	i = 0;
 	room->start_time = get_timestamp();
 	while (i < room->num_philo)
 	{
-		if (pthread_create(&room->philos[i].thread, \
-		NULL, &start_routine, &room->philos[i]))
-			return (0);
+		res = fork();
+		if (res)
+			room->philos[i].id = res;
+		else
+		{
+			start_routine(&room->philos[i]);
+			break ;
+		}
 		i++;
 	}
-	monitor(room);
-	return (1);
+	wait(&status);
+	if (WIFEXITED(status))
+	{
+		if (WEXITSTATUS(status) == DEATH_EXIT)
+			kill_all(room);
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -91,12 +70,8 @@ int	main(int argc, char *argv[])
 		else
 		{
 			room = init_room(room, argv);
-			if (!start_threads(room))
-				print_error(thread_error);
-			exit_room(room);
+			start_forks(room);
 		}
-		free(room->print);
-		free(room);
 	}
 	else
 		print_error(invalid_args);
