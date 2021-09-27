@@ -6,14 +6,14 @@
 #    By: katherine <katherine@student.codam.nl>       +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/09/13 11:32:28 by katherine     #+#    #+#                  #
-#    Updated: 2021/09/27 11:37:01 by kfu           ########   odam.nl          #
+#    Updated: 2021/09/27 11:36:55 by kfu           ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= 	philo
+NAME		= 	philo_bonus
 CC			= 	gcc
 RM			=	rm -f
-CFLAGS		= 	-Wall -Wextra -Werror -g3 -fsanitize=address -pthread
+CFLAGS		= 	-Wall -Wextra -g3 -fsanitize=address -pthread
 
 LIBS		=	-o
 
